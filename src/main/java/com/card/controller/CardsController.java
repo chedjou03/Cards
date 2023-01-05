@@ -1,13 +1,18 @@
 package com.card.controller;
 
+import com.card.config.CardsServiceConfig;
 import com.card.model.Cards;
 import com.card.model.Customer;
+import com.card.model.Properties;
 import com.card.repository.CardsRepository;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.io.IOException;
 import java.util.List;
 
 @RestController
@@ -15,6 +20,9 @@ public class CardsController {
 
     @Autowired
     private CardsRepository cardsRepository;
+
+    @Autowired
+    private CardsServiceConfig cardsServiceConfig;
 
     @PostMapping("/myCards")
     public List<Cards> getCardDetails(@RequestBody Customer customer) {
@@ -24,6 +32,14 @@ public class CardsController {
         } else {
             return null;
         }
-
     }
+
+    @GetMapping("/cards/properties")
+    public String getCardsProperties() throws IOException {
+        ObjectMapper objectMapper = new ObjectMapper();
+        Properties properties = new Properties(cardsServiceConfig.getMsg(), cardsServiceConfig.getBuildVersion(), cardsServiceConfig.getActiveBranches(), cardsServiceConfig.getMailDetails());
+        String jsonStr = objectMapper.writeValueAsString(properties);
+        return jsonStr;
+    }
+
 }

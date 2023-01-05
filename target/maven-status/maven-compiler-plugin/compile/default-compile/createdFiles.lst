@@ -3,4 +3,6 @@ com/card/helloWorldController.class
 com/card/model/Cards.class
 com/card/controller/CardsController.class
 com/card/repository/CardsRepository.class
+com/card/model/Properties.class
 com/card/model/Customer.class
+com/card/config/CardsServiceConfig.class
