@@ -27,8 +27,13 @@ public class CardsController {
 
     @PostMapping("/myCards")
     public List<Cards> getCardDetails(@RequestHeader("ChedjouBank-correlation-id") String correlationId,@RequestBody Customer customer) {
+        logger.info("getCardDetails method has started");
         logger.debug("ChedjouBank-correlation-id : {}. ", correlationId);
+
         List<Cards> cards = cardsRepository.findByCustomerId(customer.getCustomerId());
+
+        logger.info("getCardDetails method is ending");
+
         if (cards != null) {
             return cards;
         } else {
